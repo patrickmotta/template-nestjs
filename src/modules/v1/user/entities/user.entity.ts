@@ -1,4 +1,4 @@
-import { projectName } from 'src/resources/v1/utils/projectName'
+import { projectName } from '@resources/utils/projectName'
 import {
 	Column,
 	CreateDateColumn,

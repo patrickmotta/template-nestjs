@@ -1,18 +1,17 @@
 import { Module } from '@nestjs/common'
-import { V1Module } from './v1/v1.module'
-import { DatabaseModule } from '../database/database.module'
 import { ConfigModule } from '@nestjs/config'
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
 import { HttpExceptionFilter } from 'src/resources/v1/filters/httpException.filter'
 import { RequestLogInterceptor } from 'src/resources/v1/interceptors/logger/requestLog.interceptor'
+import { loadModules } from '@resources/utils/loadModules'
 
+const modules = loadModules(__dirname)
 @Module({
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
 		}),
-		V1Module,
-		DatabaseModule,
+		...modules,
 	],
 	controllers: [],
 	providers: [

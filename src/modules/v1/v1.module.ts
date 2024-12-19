@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common'
-import { UserModule } from './user/user.module'
-import { LogModule } from './log/log.module'
+
+import { loadModules } from '@resources/utils/loadModules'
+
+const v1Modules = loadModules(__dirname)
 
 @Module({
-	imports: [UserModule, LogModule],
+	imports: v1Modules,
 })
 export class V1Module {}

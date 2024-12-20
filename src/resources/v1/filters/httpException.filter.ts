@@ -7,6 +7,8 @@ import {
 	HttpStatus,
 } from '@nestjs/common'
 import { HttpAdapterHost } from '@nestjs/core'
+import { AppErrorException } from '@resources/exception/appError.exception'
+import { AppHttpErrorException } from '@resources/exception/appHttpError.exception'
 import { ErrorLogService } from 'src/modules/v1/log/services/errorLog.service'
 
 @Catch()
@@ -21,6 +23,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 		const context = host.switchToHttp()
 		const request = context.getRequest()
 		const response = context.getResponse()
+
 		const { status, body } =
 			exception instanceof HttpException
 				? {
@@ -35,14 +38,26 @@ export class HttpExceptionFilter implements ExceptionFilter {
 							path: httpAdapter.getRequestUrl(request),
 						},
 					}
+
 		const { error } =
-			exception instanceof HttpException
+			exception instanceof AppErrorException ||
+			exception instanceof AppHttpErrorException
 				? {
-						error: exception.message,
+						error: {
+							message: exception.message,
+							errorCode: exception.errorCode,
+							internalMessage: exception.internalMessage,
+						},
 					}
-				: {
-						error: exception as Error,
-					}
+				: exception instanceof HttpException
+					? {
+							error: {
+								message: exception.message,
+							},
+						}
+					: {
+							error: exception as Error,
+						}
 
 		this.errorLogService.store({
 			request: {

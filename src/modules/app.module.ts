@@ -3,9 +3,12 @@ import { ConfigModule } from '@nestjs/config'
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
 import { HttpExceptionFilter } from 'src/resources/v1/filters/httpException.filter'
 import { RequestLogInterceptor } from 'src/resources/v1/interceptors/logger/requestLog.interceptor'
-import { loadModules } from '@resources/utils/loadModules'
+import { dynamicImport } from '@resources/utils/dynamicImport'
 
-const modules = loadModules(__dirname)
+const modules = dynamicImport({
+	dir: __dirname,
+	extension: 'module',
+})
 @Module({
 	imports: [
 		ConfigModule.forRoot({

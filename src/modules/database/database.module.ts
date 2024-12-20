@@ -1,7 +1,10 @@
 import { Global, Module } from '@nestjs/common'
-import { loadModules } from '@resources/utils/loadModules'
+import { dynamicImport } from '@resources/utils/dynamicImport'
 
-const DBModules = loadModules(__dirname)
+const DBModules = dynamicImport({
+	dir: __dirname,
+	extension: 'module',
+})
 @Global()
 @Module({
 	imports: DBModules,

@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common'
 
-import { loadModules } from '@resources/utils/loadModules'
+import { dynamicImport } from '@resources/utils/dynamicImport'
 
-const v1Modules = loadModules(__dirname)
+const v1Modules = dynamicImport({
+	dir: __dirname,
+	extension: 'module',
+})
 
 @Module({
 	imports: v1Modules,

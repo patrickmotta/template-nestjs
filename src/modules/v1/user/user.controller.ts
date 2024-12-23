@@ -18,7 +18,6 @@ export class UserController {
 		private readonly userGetService: UserGetService,
 	) {}
 
-	@Version('1')
 	@Post()
 	async create(@Body() userCreateDto: UserCreateDto) {
 		return await this.userCreateService.execute(userCreateDto)

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
-import { HttpExceptionFilter } from 'src/resources/v1/filters/httpException.filter'
-import { RequestLogInterceptor } from 'src/resources/v1/interceptors/logger/requestLog.interceptor'
-import { dynamicImport } from '@resources/utils/dynamicImport'
+import { HttpExceptionFilter } from '@common/v1/filters/httpException.filter'
+import { RequestLogInterceptor } from '@common/v1/interceptors/logger/requestLog.interceptor'
+import { dynamicImport } from '@common/utils/dynamicImport'
 
 const modules = dynamicImport({
 	dir: __dirname,

@@ -1,4 +1,4 @@
-import { SendLogEntity } from '../../entities/send.entity'
+import { SendLogEntity } from '@modules/v1/log/models/entities/send.entity'
 
 export type IStoreSendLogInput = Partial<SendLogEntity>
 

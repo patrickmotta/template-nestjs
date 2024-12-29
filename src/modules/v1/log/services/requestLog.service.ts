@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { RequestLogRepository } from '../repositories/requestLog.repository'
-import { RequestLogEntity } from '../entities/request.entity'
+import { RequestLogRepository } from '@modules/v1/log/repositories/requestLog.repository'
+import { RequestLogEntity } from '@modules/v1/log/models/entities/request.entity'
 
 @Injectable()
 export class RequestLogService {

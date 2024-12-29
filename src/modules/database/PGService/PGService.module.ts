@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import PGServiceConfigDatabase from './config/PGService.config.database'
+import PGServiceConfigDatabase from '@modules/database/PGService/config/PGService.config.database'
 
 @Global()
 @Module({

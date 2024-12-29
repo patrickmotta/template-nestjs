@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { UserRepository } from '../repositories/user.repository'
+import { UserRepository } from '@modules/v1/user/repositories/user.repository'
 
 interface IInput {
 	id?: number

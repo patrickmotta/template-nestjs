@@ -3,9 +3,9 @@ import {
 	Injectable,
 	NotFoundException,
 } from '@nestjs/common'
-import { UserCreateDto } from '../dto/userCreate.dto'
+import { UserCreateDto } from '@modules/v1/user/models/dto/userCreate.dto'
 import { InjectRepository } from '@nestjs/typeorm'
-import { UserEntity } from '../entities/user.entity'
+import { UserEntity } from '@modules/v1/user/models/entities/user.entity'
 import { Repository } from 'typeorm'
 
 interface IFindOneInput {

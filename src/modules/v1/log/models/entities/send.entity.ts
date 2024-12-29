@@ -1,4 +1,4 @@
-import { projectName } from '@resources/utils/projectName'
+import { projectName } from '@common/utils/projectName'
 import {
 	Column,
 	CreateDateColumn,
@@ -6,8 +6,8 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm'
 
-@Entity({ database: 'logs', schema: projectName, name: 'request_log' })
-export class RequestLogEntity {
+@Entity({ database: 'logs', schema: projectName, name: 'send_log' })
+export class SendLogEntity {
 	@PrimaryGeneratedColumn({ name: 'id', type: 'int' })
 	id?: number
 

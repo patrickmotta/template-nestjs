@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { SendLogRepository } from '../repositories/sendLog.repository'
-import { SendLogEntity } from '../entities/send.entity'
+import { SendLogRepository } from '@modules/v1/log/repositories/sendLog.repository'
+import { SendLogEntity } from '@modules/v1/log/models/entities/send.entity'
 
 @Injectable()
 export class SendLogService {

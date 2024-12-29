@@ -1,12 +1,12 @@
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { Injectable, InternalServerErrorException } from '@nestjs/common'
-import { RequestLogEntity } from '../entities/request.entity'
+import { Injectable } from '@nestjs/common'
+import { RequestLogEntity } from '@modules/v1/log/models/entities/request.entity'
 import {
 	IRequestLogRepository,
 	IStoreRequestLogInput,
-} from '../resources/interfaces/requestLogRepository.interface'
-import { AppErrorException } from '@resources/exception/appError.exception'
+} from '@modules/v1/log/resources/interfaces/requestLogRepository.interface'
+import { AppErrorException } from '@common/exception/appError.exception'
 
 @Injectable()
 export class RequestLogRepository implements IRequestLogRepository {

@@ -7,9 +7,9 @@ import {
 	Query,
 	Version,
 } from '@nestjs/common'
-import { UserCreateDto } from './dto/userCreate.dto'
-import { UserCreateService } from './services/userCreate.service'
-import { UserGetService } from './services/userGet.service'
+import { UserCreateDto } from '@modules/v1/user/models/dto/userCreate.dto'
+import { UserCreateService } from '@modules/v1/user/services/userCreate.service'
+import { UserGetService } from '@modules/v1/user/services/userGet.service'
 
 @Controller('v1/user')
 export class UserController {

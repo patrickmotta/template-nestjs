@@ -1,4 +1,4 @@
-import { RequestLogEntity } from '../../entities/request.entity'
+import { RequestLogEntity } from '@modules/v1/log/models/entities/request.entity'
 
 export type IStoreRequestLogInput = Partial<RequestLogEntity>
 

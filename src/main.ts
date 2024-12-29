@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './modules/app.module'
+import { AppModule } from '@modules/app.module'
 import 'dotenv/config'
 import { ValidationPipe } from '@nestjs/common'
 import { useContainer } from 'class-validator'

@@ -7,9 +7,9 @@ import {
 	HttpStatus,
 } from '@nestjs/common'
 import { HttpAdapterHost } from '@nestjs/core'
-import { AppErrorException } from '@resources/exception/appError.exception'
-import { AppHttpErrorException } from '@resources/exception/appHttpError.exception'
-import { ErrorLogService } from 'src/modules/v1/log/services/errorLog.service'
+import { AppErrorException } from '@common/exception/appError.exception'
+import { AppHttpErrorException } from '@common/exception/appHttpError.exception'
+import { ErrorLogService } from '@modules/v1/log/services/errorLog.service'
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {

@@ -1,9 +1,9 @@
 import { Global, Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import PGLogsConfigDatabase from './config/PGLogs.config.database'
-import { ErrorLogEntity } from 'src/modules/v1/log/entities/error.entity'
-import { RequestLogEntity } from 'src/modules/v1/log/entities/request.entity'
-import { SendLogEntity } from 'src/modules/v1/log/entities/send.entity'
+import PGLogsConfigDatabase from '@modules/database/PGLog/config/PGLogs.config.database'
+import { ErrorLogEntity } from '@modules/v1/log/models/entities/error.entity'
+import { RequestLogEntity } from '@modules/v1/log/models/entities/request.entity'
+import { SendLogEntity } from '@modules/v1/log/models/entities/send.entity'
 
 @Global()
 @Module({

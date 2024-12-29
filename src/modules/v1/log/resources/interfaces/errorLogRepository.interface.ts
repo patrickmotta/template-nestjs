@@ -1,4 +1,4 @@
-import { ErrorLogEntity } from '../../entities/error.entity'
+import { ErrorLogEntity } from '@modules/v1/log/models/entities/error.entity'
 
 export type IStoreErrorLogInput = Partial<ErrorLogEntity>
 

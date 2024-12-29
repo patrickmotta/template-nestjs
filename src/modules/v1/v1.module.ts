@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 
-import { dynamicImport } from '@resources/utils/dynamicImport'
+import { dynamicImport } from '@common/utils/dynamicImport'
 
 const v1Modules = dynamicImport({
 	dir: __dirname,

@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm'
-import { join } from 'path'
-import { UserEntity } from 'src/modules/v1/user/entities/user.entity'
 
 @Injectable()
 export default class PGServiceConfigDatabase implements TypeOrmOptionsFactory {

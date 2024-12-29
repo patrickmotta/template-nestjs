@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { ErrorLogEntity } from '../entities/error.entity'
-import { ErrorLogRepository } from '../repositories/errorLog.repository'
+import { ErrorLogEntity } from '@modules/v1/log/models/entities/error.entity'
+import { ErrorLogRepository } from '@modules/v1/log/repositories/errorLog.repository'
 
 @Injectable()
 export class ErrorLogService {

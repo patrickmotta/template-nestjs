@@ -12,16 +12,16 @@ export class ErrorLogEntity {
 	id?: number
 
 	@Column({ name: 'method', nullable: false })
-	method: string
+	method!: string
 
 	@Column({ name: 'path', nullable: false })
-	path: string
+	path!: string
 
 	@Column({ name: 'request', nullable: false, type: 'jsonb' })
-	request: string | object
+	request!: string | object
 
 	@Column({ name: 'error', nullable: false, type: 'jsonb' })
-	error: string | object
+	error!: string | object
 
 	@CreateDateColumn({ name: 'created_at', type: 'timestamp' })
 	createdAt?: Date

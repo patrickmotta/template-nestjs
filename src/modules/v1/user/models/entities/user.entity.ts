@@ -13,16 +13,16 @@ export class UserEntity {
 	id?: number
 
 	@Column({ name: 'name', type: 'varchar', length: 200 })
-	name: string
+	name!: string
 
 	@Column({ unique: true })
-	email: string
+	email!: string
+
+	@Column({})
+	phone!: string
 
 	@Column({ unique: true })
-	phone: string
-
-	@Column({ unique: true })
-	document: string
+	document!: string
 
 	@CreateDateColumn({ name: 'created_at' })
 	createdAt?: Date

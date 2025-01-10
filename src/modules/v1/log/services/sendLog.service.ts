@@ -8,7 +8,7 @@ export class SendLogService {
 		//
 	}
 
-	async store(send: SendLogEntity) {
+	async store(send: SendLogEntity): Promise<void> {
 		await this.sendLogRepository.store(send)
 	}
 }

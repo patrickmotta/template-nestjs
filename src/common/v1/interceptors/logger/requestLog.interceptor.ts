@@ -11,7 +11,7 @@ import { RequestLogService } from '@modules/v1/log/services/requestLog.service'
 @Injectable()
 export class RequestLogInterceptor implements NestInterceptor {
 	constructor(private requestLogService: RequestLogService) {}
-	intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+	intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
 		const timeExecute = Date.now()
 		const contextHttp = context.switchToHttp()
 		const request = contextHttp.getRequest<Request>()

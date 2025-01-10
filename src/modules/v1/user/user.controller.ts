@@ -1,35 +1,40 @@
-import {
-	Controller,
-	Post,
-	Body,
-	Get,
-	Param,
-	Query,
-	Version,
-} from '@nestjs/common'
+import { Controller, Post, Body, Get, Param } from '@nestjs/common'
 import { UserCreateDto } from '@modules/v1/user/models/dto/userCreate.dto'
 import { UserCreateService } from '@modules/v1/user/services/userCreate.service'
-import { UserGetService } from '@modules/v1/user/services/userGet.service'
+import { UserGetOneService } from '@modules/v1/user/services/userGetOne.service'
+import { UserEntity } from './models/entities/user.entity'
+import { UserGetAllService } from './services/userGetAll.service'
+import { UserUpdateService } from './services/userUpdate.service'
 
 @Controller('v1/user')
 export class UserController {
 	constructor(
 		private readonly userCreateService: UserCreateService,
-		private readonly userGetService: UserGetService,
+		private readonly userGetOneService: UserGetOneService,
+		private readonly userGetAllService: UserGetAllService,
+		private readonly userUpdateService: UserUpdateService,
 	) {}
 
+	@Get('/all')
+	async findAll(): Promise<UserEntity[]> {
+		return await this.userGetAllService.execute()
+	}
+
 	@Post()
-	async create(@Body() userCreateDto: UserCreateDto) {
+	async create(@Body() userCreateDto: UserCreateDto): Promise<object> {
 		return await this.userCreateService.execute(userCreateDto)
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: number) {
-		return this.userGetService.execute({ id })
+	@Post('/update/:id')
+	async update(
+		@Body() userUpdate: Partial<UserCreateDto>,
+		@Param('id') id: number,
+	): Promise<object> {
+		return await this.userUpdateService.execute({ id, userUpdate })
 	}
 
-	@Get()
-	findQuery(@Query() query: Partial<UserCreateDto>) {
-		return this.userGetService.execute(query)
+	@Get(':id')
+	async findOne(@Param('id') id: number): Promise<UserEntity> {
+		return await this.userGetOneService.execute({ id })
 	}
 }

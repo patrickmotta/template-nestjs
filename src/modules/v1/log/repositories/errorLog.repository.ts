@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common'
 import {
 	IErrorLogRepository,
 	IStoreErrorLogInput,
-} from '@modules/v1/log/resources/interfaces/errorLogRepository.interface'
+} from '@modules/v1/log/resources/interfaces/repositories/errorLogRepository.interface'
 import { AppErrorException } from '@common/exception/appError.exception'
 
 @Injectable()

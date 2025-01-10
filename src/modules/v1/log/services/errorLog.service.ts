@@ -8,7 +8,7 @@ export class ErrorLogService {
 		//
 	}
 
-	async store(error: Partial<ErrorLogEntity>) {
+	async store(error: Partial<ErrorLogEntity>): Promise<void> {
 		await this.errorLogRepository.store(error)
 	}
 }

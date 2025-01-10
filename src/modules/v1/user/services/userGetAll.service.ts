@@ -1,20 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { UserRepository } from '@modules/v1/user/repositories/user.repository'
-
-interface IInput {
-	id?: number
-	document?: string
-}
+import { UserEntity } from '../models/entities/user.entity'
 
 @Injectable()
-export class UserGetService {
+export class UserGetAllService {
 	constructor(private userRepository: UserRepository) {
 		//
 	}
-	async execute({ id, document }: IInput) {
-		if (id || document) {
-			return await this.userRepository.findOne({ document, id })
-		}
+	async execute(): Promise<UserEntity[]> {
 		return await this.userRepository.findAll()
 	}
 }

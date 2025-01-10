@@ -18,12 +18,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
 		private errorLogService: ErrorLogService,
 	) {}
 
-	catch(exception: unknown, host: ArgumentsHost) {
+	catch(exception: unknown, host: ArgumentsHost): void {
 		const { httpAdapter } = this.dapterHost
 		const context = host.switchToHttp()
 		const request = context.getRequest()
 		const response = context.getResponse()
 
+		console.log(exception)
 		const { status, body } =
 			exception instanceof HttpException
 				? {

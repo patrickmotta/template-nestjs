@@ -1,19 +1,21 @@
 import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from 'class-validator'
+import { EmailIsUnique } from '../../resources/validators/emailIsUnique.validator'
 
 export class UserCreateDto {
 	@IsNotEmpty()
 	@IsString()
-	name: string
+	name!: string
 
 	@IsNotEmpty()
 	@IsEmail()
-	email: string
+	@EmailIsUnique()
+	email!: string
 
 	@IsNotEmpty()
 	@IsPhoneNumber('BR')
-	phone: string
+	phone!: string
 
 	@IsNotEmpty()
 	@IsString()
-	document: string
+	document!: string
 }

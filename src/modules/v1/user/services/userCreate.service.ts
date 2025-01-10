@@ -7,7 +7,7 @@ export class UserCreateService {
 	constructor(private userRepository: UserRepository) {
 		//
 	}
-	async execute(userCreateDto: UserCreateDto) {
+	async execute(userCreateDto: UserCreateDto): Promise<object> {
 		await this.userRepository.create(userCreateDto)
 
 		return { message: 'User created' }

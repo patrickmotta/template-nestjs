@@ -4,7 +4,7 @@ import 'dotenv/config'
 import { ValidationPipe } from '@nestjs/common'
 import { useContainer } from 'class-validator'
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
 	const app = await NestFactory.create(AppModule)
 
 	app.useGlobalPipes(

@@ -10,10 +10,15 @@ const services = dynamicImport({
 	extension: 'service',
 })
 
+const validators = dynamicImport({
+	dir: __dirname + '/resources',
+	extension: 'validator',
+})
+
 @Module({
 	imports: [TypeOrmModule.forFeature([UserEntity], 'PGService')],
 	controllers: [UserController],
-	providers: [UserRepository, ...services],
+	providers: [UserRepository, ...services, ...validators],
 	exports: [...services],
 })
 export class UserModule {}

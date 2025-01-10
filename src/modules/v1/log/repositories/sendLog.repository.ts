@@ -5,7 +5,7 @@ import { SendLogEntity } from '@modules/v1/log/models/entities/send.entity'
 import {
 	ISendLogRepository,
 	IStoreSendLogInput,
-} from '@modules/v1/log/resources/interfaces/sendLogRepository.interface'
+} from '@modules/v1/log/resources/interfaces/repositories/sendLogRepository.interface'
 import { AppErrorException } from '@common/exception/appError.exception'
 
 @Injectable()

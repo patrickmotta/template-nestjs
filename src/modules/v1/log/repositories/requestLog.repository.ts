@@ -5,7 +5,7 @@ import { RequestLogEntity } from '@modules/v1/log/models/entities/request.entity
 import {
 	IRequestLogRepository,
 	IStoreRequestLogInput,
-} from '@modules/v1/log/resources/interfaces/requestLogRepository.interface'
+} from '@modules/v1/log/resources/interfaces/repositories/requestLogRepository.interface'
 import { AppErrorException } from '@common/exception/appError.exception'
 
 @Injectable()

@@ -9,7 +9,7 @@ interface IInput {
 
 export class AppHttpErrorException extends HttpException {
 	public readonly errorCode: string
-	public readonly internalMessage: string | string[] | object
+	public readonly internalMessage: string | string[] | object | undefined
 
 	constructor({ message, statusCode, errorCode, internalMessage }: IInput) {
 		super({ message, errorCode }, statusCode)

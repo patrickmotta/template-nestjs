@@ -1,3 +1,4 @@
+import { environment, typeEnvironment } from '@common/utils/environment'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm'
@@ -10,6 +11,8 @@ export default class PGLogsConfigDatabase implements TypeOrmOptionsFactory {
 	private DBUser = this.getEnv('PG_LOGS_DB_USER')
 	private DBPassword = this.getEnv('PG_LOGS_DB_PASSWORD')
 	private DBName = this.getEnv('PG_LOGS_DB_NAME')
+	private readonly syncronize =
+		environment === typeEnvironment.dev ? true : false
 
 	private getEnv(envName: string): string {
 		const env =
@@ -31,7 +34,7 @@ export default class PGLogsConfigDatabase implements TypeOrmOptionsFactory {
 			password: this.DBPassword,
 			database: this.DBName,
 			autoLoadEntities: true,
-			synchronize: true,
+			synchronize: this.syncronize,
 		}
 	}
 }

@@ -1,54 +1,176 @@
-import {
-	ConflictException,
-	Injectable,
-	NotFoundException,
-} from '@nestjs/common'
-import { UserCreateDto } from '@modules/v1/user/models/dto/userCreate.dto'
+import { HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from '@modules/v1/user/models/entities/user.entity'
 import { Repository } from 'typeorm'
-
-interface IFindOneInput {
-	id?: number
-	document?: string
-}
+import {
+	ICreateInput,
+	ICreateOutput,
+	IFindAllOutput,
+	IFindByEmailInput,
+	IFindByEmailOutput,
+	IFindByIdInput,
+	IFindByIdOutput,
+	IFindOneInput,
+	IFindOneOutput,
+	IUpdateInput,
+	IUserRepository,
+} from '../resources/repositories/userRepository.interface'
+import { AppErrorException } from '@common/exception/appError.exception'
+import { AppHttpErrorException } from '@common/exception/appHttpError.exception'
 
 @Injectable()
-export class UserRepository {
+export class UserRepository implements IUserRepository {
 	constructor(
 		@InjectRepository(UserEntity, 'PGService')
 		private readonly userRepository: Repository<UserEntity>,
 	) {}
-	async create(userCreateDto: UserCreateDto) {
+	async create(user: ICreateInput): Promise<ICreateOutput> {
 		try {
-			await this.userRepository.save(userCreateDto)
+			await this.userRepository.save(user)
 		} catch (error) {
-			console.log(error)
-			if (error.code === '23505') {
-				const message = error?.detail
-					.replaceAll('(', '')
-					.replaceAll(')', ' ')
-					.replaceAll('=', '')
-					.replaceAll('Key', '')
-				throw new ConflictException(message)
+			const dbError = error as { message: string }
+
+			throw new AppErrorException({
+				message: 'Erro ao criar usuário',
+				errorCode: 'ERROR_PG_CREATE_USER',
+				internalMessage: dbError.message,
+			})
+		}
+	}
+	async findAll(): Promise<IFindAllOutput[]> {
+		try {
+			return await this.userRepository.find()
+		} catch (error) {
+			const dbError = error as { message: string }
+
+			throw new AppErrorException({
+				message: 'Erro ao buscar usuários',
+				errorCode: 'ERROR_PG_GET_USERS',
+				internalMessage: dbError.message,
+			})
+		}
+	}
+	async findOne({
+		id,
+		document,
+		email,
+	}: IFindOneInput): Promise<IFindOneOutput> {
+		try {
+			const DBUser = await this.userRepository.findOne({
+				where: {
+					id,
+					document,
+					email,
+				},
+			})
+
+			if (!DBUser) {
+				throw new AppHttpErrorException({
+					message: 'Usuário não encontrado',
+					errorCode: 'NOT_FOUND_USER',
+					statusCode: HttpStatus.FORBIDDEN,
+				})
 			}
+
+			return DBUser
+		} catch (error) {
+			if (error instanceof AppHttpErrorException)
+				throw new AppHttpErrorException({
+					message: error.message,
+					errorCode: error.errorCode,
+					statusCode: HttpStatus.FORBIDDEN,
+				})
+
+			const dbError = error as { message: string }
+
+			throw new AppErrorException({
+				message: 'Erro ao buscar usuário',
+				errorCode: 'ERROR_PG_GET_USERS',
+				internalMessage: dbError.message,
+			})
 		}
 	}
-	async findAll() {
-		return await this.userRepository.find()
-	}
-	async findOne({ id, document }: IFindOneInput) {
-		const DBUser = await this.userRepository.findOne({
-			where: {
-				id,
-				document,
-			},
-		})
 
-		if (!DBUser) {
-			throw new NotFoundException('Cliente não encontrado')
+	async findByEmail({ email }: IFindByEmailInput): Promise<IFindByEmailOutput> {
+		try {
+			const DBUser = await this.userRepository.findOne({
+				where: {
+					email,
+				},
+			})
+
+			if (!DBUser) {
+				throw new AppHttpErrorException({
+					message: 'Usuário não encontrado',
+					errorCode: 'NOT_FOUND_USER_BY_EMAIL',
+					statusCode: HttpStatus.FORBIDDEN,
+				})
+			}
+
+			return DBUser
+		} catch (error) {
+			if (error instanceof AppHttpErrorException)
+				throw new AppHttpErrorException({
+					message: error.message,
+					errorCode: error.errorCode,
+					statusCode: HttpStatus.FORBIDDEN,
+				})
+
+			const dbError = error as { message: string }
+
+			throw new AppErrorException({
+				message: 'Erro ao buscar usuário',
+				errorCode: 'ERROR_PG_GET_USERS_BY_EMAIL',
+				internalMessage: dbError.message,
+			})
 		}
+	}
+	async findById({ id }: IFindByIdInput): Promise<IFindByIdOutput> {
+		try {
+			const DBUser = await this.userRepository.findOne({
+				where: {
+					id,
+				},
+			})
 
-		return DBUser
+			if (!DBUser) {
+				throw new AppHttpErrorException({
+					message: 'Usuário não encontrado',
+					errorCode: 'NOT_FOUND_USER_BY_ID',
+					statusCode: HttpStatus.FORBIDDEN,
+				})
+			}
+
+			return DBUser
+		} catch (error) {
+			if (error instanceof AppHttpErrorException)
+				throw new AppHttpErrorException({
+					message: error.message,
+					errorCode: error.errorCode,
+					statusCode: HttpStatus.FORBIDDEN,
+				})
+
+			const dbError = error as { message: string }
+
+			throw new AppErrorException({
+				message: 'Erro ao buscar usuário',
+				errorCode: 'ERROR_PG_GET_USERS_BY_ID',
+				internalMessage: dbError.message,
+			})
+		}
+	}
+
+	async update(user: IUpdateInput): Promise<void> {
+		try {
+			await this.userRepository.save(user)
+		} catch (error) {
+			const dbError = error as { message: string }
+
+			throw new AppErrorException({
+				message: 'Erro ao atualizar usuário',
+				errorCode: 'ERROR_PG_UPDATE_USER',
+				internalMessage: dbError.message,
+			})
+		}
 	}
 }

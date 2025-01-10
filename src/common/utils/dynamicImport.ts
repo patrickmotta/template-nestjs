@@ -4,11 +4,15 @@ import * as path from 'path'
 interface IInput {
 	dir: string
 	extension: string
+	exclude?: string[]
 }
 
-export function dynamicImport({ dir, extension }: IInput) {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types
+export function dynamicImport({ dir, extension, exclude }: IInput) {
 	const modulesDir = path.join(dir)
 	const subdirs = fs.readdirSync(modulesDir)
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	const modules = []
 
 	subdirs.forEach((subdir) => {
@@ -29,6 +33,9 @@ export function dynamicImport({ dir, extension }: IInput) {
 						filterFileName.slice(1) +
 						extensionUpperCase
 
+					if (exclude?.includes(className)) {
+						return
+					}
 					// eslint-disable-next-line @typescript-eslint/no-require-imports
 					const moduleExports = require(modulePath)
 					modules.push(moduleExports[className])
@@ -36,6 +43,7 @@ export function dynamicImport({ dir, extension }: IInput) {
 			})
 		}
 	})
-
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
 	return modules
 }

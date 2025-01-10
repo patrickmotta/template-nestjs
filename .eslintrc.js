@@ -17,10 +17,9 @@ module.exports = {
    },
    ignorePatterns: ['.eslintrc.js'],
    rules: {
-      '@typescript-eslint/interface-name-prefix': 'off',
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'error',
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/naming-convention': [
          "error",
          {
@@ -39,9 +38,8 @@ module.exports = {
       ],
       "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
       "@typescript-eslint/no-unused-vars": [
-         "warn",
+         "error",
          { "argsIgnorePattern": "^_" }
       ]
    },
  }
- 

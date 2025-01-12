@@ -14,7 +14,7 @@ import {
 	IFindOneOutput,
 	IUpdateInput,
 	IUserRepository,
-} from '../resources/repositories/userRepository.interface'
+} from '@modules/v1/user/resources/interfaces/repositories/userRepository.interface'
 import { AppErrorException } from '@common/exception/appError.exception'
 import { AppHttpErrorException } from '@common/exception/appHttpError.exception'
 
@@ -29,7 +29,6 @@ export class UserRepository implements IUserRepository {
 			await this.userRepository.save(user)
 		} catch (error) {
 			const dbError = error as { message: string }
-
 			throw new AppErrorException({
 				message: 'Erro ao criar usuário',
 				errorCode: 'ERROR_PG_CREATE_USER',

@@ -1,5 +1,5 @@
-import { UserCreateDto } from '../../models/dto/userCreate.dto'
-import { UserEntity } from '../../models/entities/user.entity'
+import { UserCreateDto } from '@modules/v1/user/models/dto/userCreate.dto'
+import { UserEntity } from '@modules/v1/user/models/entities/user.entity'
 
 export type ICreateInput = UserCreateDto
 

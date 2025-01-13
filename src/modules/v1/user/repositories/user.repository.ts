@@ -6,12 +6,12 @@ import {
 	ICreateInput,
 	ICreateOutput,
 	IFindAllOutput,
+	IFindByDocumentInput,
+	IFindByDocumentOutput,
 	IFindByEmailInput,
 	IFindByEmailOutput,
 	IFindByIdInput,
 	IFindByIdOutput,
-	IFindOneInput,
-	IFindOneOutput,
 	IUpdateInput,
 	IUserRepository,
 } from '@modules/v1/user/resources/interfaces/repositories/userRepository.interface'
@@ -49,17 +49,13 @@ export class UserRepository implements IUserRepository {
 			})
 		}
 	}
-	async findOne({
-		id,
+	async findByDocument({
 		document,
-		email,
-	}: IFindOneInput): Promise<IFindOneOutput> {
+	}: IFindByDocumentInput): Promise<IFindByDocumentOutput> {
 		try {
 			const DBUser = await this.userRepository.findOne({
 				where: {
-					id,
 					document,
-					email,
 				},
 			})
 

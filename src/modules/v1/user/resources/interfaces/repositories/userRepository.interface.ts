@@ -7,12 +7,10 @@ export type ICreateOutput = void
 
 export type IFindAllOutput = UserEntity
 
-export interface IFindOneInput {
-	id?: number
-	document?: string
-	email?: string
+export interface IFindByDocumentInput {
+	document: string
 }
-export type IFindOneOutput = UserEntity
+export type IFindByDocumentOutput = UserEntity
 
 export interface IFindByEmailInput {
 	email: string
@@ -29,7 +27,7 @@ export type IUpdateInput = UserEntity
 export interface IUserRepository {
 	create(input: ICreateInput): Promise<ICreateOutput>
 	findAll(): Promise<IFindAllOutput[]>
-	findOne(input: IFindOneInput): Promise<IFindOneOutput>
+	findByDocument(input: IFindByDocumentInput): Promise<IFindByDocumentOutput>
 	findByEmail(input: IFindByEmailInput): Promise<IFindByEmailOutput>
 	findById(input: IFindByIdInput): Promise<IFindByIdOutput>
 	update(input: IUpdateInput): Promise<void>

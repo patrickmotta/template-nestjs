@@ -16,6 +16,7 @@ export class UserGetOneService {
 	async execute({ id, document, email }: IInput): Promise<UserEntity> {
 		if (email) return await this.userRepository.findByEmail({ email })
 		if (id) return await this.userRepository.findById({ id })
-		return await this.userRepository.findOne({ document })
+		if (document) return await this.userRepository.findByDocument({ document })
+		throw new Error('Metodo não implementado')
 	}
 }

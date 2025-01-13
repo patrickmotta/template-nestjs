@@ -6,6 +6,7 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 import { UserCreateDto } from '@modules/v1/user/models/dto/userCreate.dto'
 import { AppErrorException } from '@common/exception/appError.exception'
 import { AppHttpErrorException } from '@common/exception/appHttpError.exception'
+import { UpdateUserDto } from '@modules/v1/user/models/dto/updateUser.dto'
 
 describe('UserRepository', () => {
 	let userRepository: UserRepository
@@ -20,6 +21,7 @@ describe('UserRepository', () => {
 					useValue: {
 						save: jest.fn(),
 						findOne: jest.fn(),
+						find: jest.fn(),
 					},
 				},
 			],
@@ -59,7 +61,7 @@ describe('UserRepository', () => {
 
 			jest
 				.spyOn(typeormRepository, 'save')
-				.mockRejectedValue(new Error('Indisponibilidade do banco de dados'))
+				.mockRejectedValue(new Error('Erro generico de banco de dados'))
 
 			await expect(userRepository.create(userCreateDto)).rejects.toThrow(
 				AppErrorException,
@@ -70,11 +72,11 @@ describe('UserRepository', () => {
 		})
 	})
 
-	describe('findByEmail', () => {
+	describe('FindByEmail', () => {
 		const userEmail = 'jose@email.com'
 
 		it('Deve retornar um usuário, se ele existir', async () => {
-			const DBUser: UserEntity = {
+			const user: UserEntity = {
 				id: 1,
 				document: '2312121212',
 				email: 'jose@email.com',
@@ -82,9 +84,9 @@ describe('UserRepository', () => {
 				phone: '31666548985',
 			}
 
-			jest.spyOn(typeormRepository, 'findOne').mockResolvedValue(DBUser)
+			jest.spyOn(typeormRepository, 'findOne').mockResolvedValue(user)
 
-			const result = await userRepository.findByEmail({ email: userEmail })
+			const DBUser = await userRepository.findByEmail({ email: userEmail })
 
 			expect(typeormRepository.findOne).toHaveBeenCalledWith({
 				where: {
@@ -93,7 +95,7 @@ describe('UserRepository', () => {
 			})
 			expect(typeormRepository.findOne).toHaveBeenCalledTimes(1)
 
-			expect(result).toEqual(DBUser)
+			expect(DBUser).toEqual(user)
 		})
 
 		it('Deve retornar que o usuário não foi encontrado', async () => {
@@ -114,7 +116,7 @@ describe('UserRepository', () => {
 		it('Deve lançar um erro de banco de dados', async () => {
 			jest
 				.spyOn(typeormRepository, 'findOne')
-				.mockRejectedValue(new Error('Indisponibilidade do banco de dados'))
+				.mockRejectedValue(new Error('Erro generico de banco de dados'))
 
 			await expect(
 				userRepository.findByEmail({ email: userEmail }),
@@ -126,6 +128,184 @@ describe('UserRepository', () => {
 				},
 			})
 			expect(typeormRepository.findOne).toHaveBeenCalledTimes(1)
+		})
+	})
+
+	describe('FindAll', () => {
+		it('Deve retornar todos os usuários', async () => {
+			const users: UserEntity[] = [
+				{
+					id: 1,
+					document: '2312121212',
+					email: 'jose@email.com',
+					name: 'jose',
+					phone: '31666548985',
+				},
+				{
+					id: 2,
+					document: '36545857892',
+					email: 'maria@email.com',
+					name: 'maria',
+					phone: '31666548985',
+				},
+			]
+
+			jest.spyOn(typeormRepository, 'find').mockResolvedValue(users)
+
+			const DBUsers = await userRepository.findAll()
+			expect(typeormRepository.find).toHaveBeenCalled()
+			expect(typeormRepository.find).toHaveBeenCalledTimes(1)
+
+			expect(DBUsers).toEqual(users)
+		})
+
+		it('Deve lançar um erro de banco de dados', async () => {
+			jest
+				.spyOn(typeormRepository, 'find')
+				.mockRejectedValue(new Error('Erro generico de banco de dados'))
+
+			await expect(userRepository.findAll()).rejects.toThrow(AppErrorException)
+
+			expect(typeormRepository.find).toHaveBeenCalled()
+			expect(typeormRepository.find).toHaveBeenCalledTimes(1)
+		})
+	})
+
+	describe('FindByDocument', () => {
+		const user: UserEntity = {
+			id: 1,
+			document: '2312121212',
+			email: 'jose@email.com',
+			name: 'jose',
+			phone: '31666548985',
+		}
+		it('Deve retornar um usuário', async () => {
+			jest.spyOn(typeormRepository, 'findOne').mockResolvedValue(user)
+
+			const DBUser = await userRepository.findByDocument({
+				document: user.document,
+			})
+
+			expect(typeormRepository.findOne).toHaveBeenCalledWith({
+				where: {
+					document: user.document,
+				},
+			})
+			expect(typeormRepository.findOne).toHaveBeenCalledTimes(1)
+
+			expect(DBUser).toEqual(user)
+		})
+
+		it('Deve retornar que o usuário não foi encontrado', async () => {
+			jest.spyOn(typeormRepository, 'findOne').mockResolvedValue(null)
+
+			await expect(
+				userRepository.findByDocument({ document: user.document }),
+			).rejects.toThrow(AppHttpErrorException)
+
+			expect(typeormRepository.findOne).toHaveBeenCalledWith({
+				where: {
+					document: user.document,
+				},
+			})
+			expect(typeormRepository.findOne).toHaveBeenCalledTimes(1)
+		})
+
+		it('Deve lançar um erro de banco de dados', async () => {
+			jest
+				.spyOn(typeormRepository, 'findOne')
+				.mockRejectedValue(new Error('Erro generico de banco de dados'))
+
+			await expect(
+				userRepository.findByDocument({ document: user.document }),
+			).rejects.toThrow(AppErrorException)
+		})
+	})
+
+	describe('FindById', () => {
+		const userId = 1
+		const user: UserEntity = {
+			id: 1,
+			document: '2312121212',
+			email: 'jose@email.com',
+			name: 'jose',
+			phone: '31666548985',
+		}
+		it('Deve retornar um usuário', async () => {
+			jest.spyOn(typeormRepository, 'findOne').mockResolvedValue(user)
+
+			const DBUser = await userRepository.findById({
+				id: userId,
+			})
+
+			expect(typeormRepository.findOne).toHaveBeenCalledWith({
+				where: {
+					id: userId,
+				},
+			})
+			expect(typeormRepository.findOne).toHaveBeenCalledTimes(1)
+
+			expect(DBUser).toEqual(user)
+		})
+
+		it('Deve retornar que o usuário não foi encontrado', async () => {
+			jest.spyOn(typeormRepository, 'findOne').mockResolvedValue(null)
+
+			await expect(userRepository.findById({ id: userId })).rejects.toThrow(
+				AppHttpErrorException,
+			)
+
+			expect(typeormRepository.findOne).toHaveBeenCalledWith({
+				where: {
+					id: userId,
+				},
+			})
+			expect(typeormRepository.findOne).toHaveBeenCalledTimes(1)
+		})
+
+		it('Deve lançar um erro de banco de dados', async () => {
+			jest
+				.spyOn(typeormRepository, 'findOne')
+				.mockRejectedValue(new Error('Erro generico de banco de dados'))
+
+			await expect(userRepository.findById({ id: userId })).rejects.toThrow(
+				AppErrorException,
+			)
+		})
+	})
+
+	describe('Update', () => {
+		const updateUseDto: UpdateUserDto = {
+			name: 'joao',
+			email: 'joao@email.com',
+		}
+
+		const user: UserEntity = {
+			id: 1,
+			document: '2312121212',
+			email: 'jose@email.com',
+			name: 'jose',
+			phone: '31666548985',
+		}
+
+		it('Deve atualizar o usuário', async () => {
+			Object.assign(user, updateUseDto)
+			await userRepository.update(user)
+
+			expect(typeormRepository.save).toHaveBeenCalledWith(user)
+			expect(typeormRepository.save).toHaveBeenCalledTimes(1)
+		})
+
+		it('Deve lançar um erro de banco de dados', async () => {
+			jest
+				.spyOn(typeormRepository, 'save')
+				.mockRejectedValue(new Error('Erro generico de banco de dados'))
+
+			Object.assign(user, updateUseDto)
+
+			await expect(userRepository.update(user)).rejects.toThrow(
+				AppErrorException,
+			)
 		})
 	})
 })

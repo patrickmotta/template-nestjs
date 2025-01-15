@@ -8,6 +8,7 @@ const v1Modules = dynamicImport({
 })
 
 @Module({
-	imports: v1Modules,
+	imports: [...v1Modules],
+	exports: [...v1Modules],
 })
 export class V1Module {}

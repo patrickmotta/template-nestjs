@@ -7,7 +7,7 @@ const DBModules = dynamicImport({
 })
 @Global()
 @Module({
-	imports: DBModules,
-	exports: DBModules,
+	imports: [...DBModules],
+	exports: [...DBModules],
 })
 export class DatabaseModule {}

@@ -1,6 +1,5 @@
 import * as fs from 'fs'
 import * as path from 'path'
-
 interface IInput {
 	dir: string
 	extension: string
@@ -21,7 +20,10 @@ export function dynamicImport({ dir, extension, exclude }: IInput) {
 			const files = fs.readdirSync(subdirPath)
 
 			files.forEach((file) => {
-				if (file.endsWith(`.${extension}.js`)) {
+				if (
+					file.endsWith(`.${extension}.js`) ||
+					file.endsWith(`.${extension}.ts`)
+				) {
 					const modulePath = path.join(subdirPath, file)
 
 					const filterFileName = file.split('.')[0]

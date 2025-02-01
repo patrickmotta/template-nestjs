@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common'
-import { SendLogRepository } from '@modules/v1/log/repositories/sendLog.repository'
 import { SendLogEntity } from '@modules/v1/log/models/entities/send.entity'
+import { LogRepository } from '../repositories/log.repository'
 
 @Injectable()
 export class SendLogService {
-	constructor(private sendLogRepository: SendLogRepository) {
+	constructor(private logRepository: LogRepository) {
 		//
 	}
 
 	async store(send: SendLogEntity): Promise<void> {
-		await this.sendLogRepository.store(send)
+		await this.logRepository.sendStore(send)
 	}
 }
